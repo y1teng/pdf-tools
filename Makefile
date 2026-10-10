@@ -24,9 +24,17 @@ help:
 	@echo "DeepL APIキー（無料枠で可）は、このディレクトリ直下の .env に DEEPL_API_KEY=... で置いてください。"
 
 setup:
-	uv sync
+	@if command -v uv >/dev/null 2>&1; then \
+		echo "== uv でセットアップ =="; \
+		uv sync; \
+	else \
+		echo "== uv が見つからないので、標準の venv + pip でセットアップ =="; \
+		python3 -m venv "$(VENV)"; \
+		"$(PYTHON)" -m pip install --upgrade pip; \
+		"$(PYTHON)" -m pip install -r requirements.txt; \
+	fi
 	@echo "setup完了。DeepL無料キーを使う場合は .env に DEEPL_API_KEY=... を書いてください"
-	@echo "（https://www.deepl.com/ja/pro-api で無料登録できます）"
+	@echo "（https://www.deepl.com/ja/pro-api で無料登録できます。新規登録できない場合はREADMEの「限界」を参照）"
 
 extract:
 	@test -n "$(PDF)" || (echo "使い方: make extract PDF=path/to/file.pdf" >&2; exit 1)

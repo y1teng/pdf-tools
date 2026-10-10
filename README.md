@@ -14,7 +14,7 @@ PDF --[Docling（ローカル・無料）]--> Markdown --[DeepL（無料枠）]-
 ## 必要なもの
 
 - Python 3.12以上
-- [uv](https://docs.astral.sh/uv/)（`pip install uv` または各OSのインストーラで導入）
+- （あれば）[uv](https://docs.astral.sh/uv/) — `make setup`は`uv`があれば自動で使い、無ければ標準の`venv`+`pip`にフォールバックします。42の校舎PCなどで`uv`が入っていなくても、そのまま`make setup`を実行すればOKです
 - DeepLの無料APIキー（[deepl.com/ja/pro-api](https://www.deepl.com/ja/pro-api) で無料登録。月50万文字まで無料）
   - ⚠️ **注意**: DeepL公式のプランページによると、「DeepL API Free」プランは現在**新規登録を停止している**可能性があります（2026-10-10時点、未確認情報含む）。既存のFreeキーを持っている人は引き続き使えるようですが、これから新しく登録しようとすると選べない場合があります。登録ページで実際にFreeプランが選べるか確認してください。選べない場合は[限界](#限界)を参照してください。
 
