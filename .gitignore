@@ -1,0 +1,11 @@
+# secrets
+.env
+
+# virtualenv
+.venv/
+
+# generated output (subject PDF content - not for public redistribution)
+output/
+
+# model/download caches
+.cache/
