@@ -6,6 +6,16 @@ DOCLING     := $(VENV)/bin/docling
 OUTPUT_DIR  := output
 SCRIPTS_DIR := scripts
 
+# 42の校舎PCなど、ホームディレクトリの容量が厳しい環境向け:
+# /sgoinfre（席をまたいで使える）や /goinfre（その席だけ）があれば、
+# Doclingのモデルキャッシュ（数GB）をそちらへ逃がし、ホームの容量を消費しないようにする。
+# どちらも無い環境（このリポジトリの開発機など）では何もしない＝今まで通りの既定の場所を使う。
+ifneq ($(wildcard /sgoinfre/$(USER)),)
+export HF_HOME := /sgoinfre/$(USER)/.cache/huggingface
+else ifneq ($(wildcard /goinfre/$(USER)),)
+export HF_HOME := /goinfre/$(USER)/.cache/huggingface
+endif
+
 .PHONY: help setup extract translate all batch list clean fclean re
 
 help:
