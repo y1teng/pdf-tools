@@ -19,46 +19,66 @@ PDF --[Docling（ローカル・無料）]--> Markdown --[DeepL（無料枠）]-
 - DeepLの無料APIキー（[deepl.com/ja/pro-api](https://www.deepl.com/ja/pro-api) で無料登録。月50万文字まで無料）
   - ⚠️ **注意**: DeepL公式のプランページによると、「DeepL API Free」プランは現在**新規登録を停止している**可能性があります（2026-10-10時点、未確認情報含む）。既存のFreeキーを持っている人は引き続き使えるようですが、これから新しく登録しようとすると選べない場合があります。登録ページで実際にFreeプランが選べるか確認してください。選べない場合は[限界](#限界)を参照してください。
 
-## セットアップ
+## 使い方（はじめての人向け）
+
+例として、42のintraから `libft.pdf` をダウンロードして `~/Downloads/libft.pdf` に置いた、という想定で進めます。
+
+**1. このリポジトリをクローンする**
 
 ```bash
 git clone https://github.com/y1teng/pdf-tools.git
 cd pdf-tools
+```
+
+**2. セットアップする**
+
+```bash
 make setup
 ```
 
-`make setup` は初回に `docling` 一式（レイアウト認識モデルなど）をダウンロードします。回線にもよりますが数分かかることがあります。
+初回は `docling` 一式（レイアウト認識モデルなど）をダウンロードするので、回線にもよりますが数分かかります。空き容量は2GBほど必要です（足りない場合は[限界](#限界)を参照）。
 
-次に、このディレクトリ直下に `.env` ファイルを作り、DeepLの無料APIキーを書いてください。
+**3. DeepLの無料APIキーを `.env` に書く**
+
+[deepl.com/ja/pro-api](https://www.deepl.com/ja/pro-api) で無料登録してキーを取得し（新規登録できない場合は[限界](#限界)を参照）、このディレクトリ直下に `.env` を作ります。
 
 ```bash
 echo "DEEPL_API_KEY=ここに自分のキー" > .env
 ```
 
-（DeepLキーを用意しない場合でも `make extract` だけなら動きます。翻訳なしのMarkdown下訳だけで良い人はそれでも十分です。）
+**4. PDFを指定して実行する**
 
-## 使い方
+ダウンロードした `libft.pdf` をそのまま指定します。移動は不要です。
 
 ```bash
-make extract PDF=path/to/課題.pdf     # PDF -> Markdown（無料・ローカル）
-make translate PDF=path/to/課題.pdf   # Markdown -> 対訳Markdown（DeepL無料枠）
-make all PDF=path/to/課題.pdf         # 上の2つをまとめて実行
-make batch DIR=path/to/フォルダ       # フォルダ内の全PDFに make all を実行
-make list                             # 処理済みモジュール一覧
-make clean MODULE=名前                # 1モジュール分の出力を削除
-make fclean                           # 仮想環境を削除してやり直す
+make all PDF=~/Downloads/libft.pdf
 ```
 
-出力は `output/<モジュール名>/` 以下にまとまります。
+**5. 出来上がったファイルを見る**
 
 ```
 output/
-  Python Module 05 bis/
-    Python Module 05 bis.md          # Doclingの生成物
-    Python Module 05 bis (対訳).md    # DeepL翻訳済みの下訳
+  libft/
+    libft.md          # Doclingが作ったMarkdown（英語のみ）
+    libft (対訳).md    # DeepLが訳した英日対訳Markdown
 ```
 
+`output/libft/libft (対訳).md` を開けば、英語の下に日本語訳が並んだMarkdownになっています。これはまだ**下訳**なので、見出しの体裁や注意書きの種類分けなどは手直しが必要なことがあります（詳しくは[限界](#限界)を参照）。
+
 `output/`はこのリポジトリには含まれません（課題文そのものの再配布になるため、`.gitignore`で除外しています）。手元に生成されるだけです。
+
+### その他のコマンド
+
+他の課題PDFも同じ流れで `make all PDF=...` するだけですが、以下のコマンドも用意してあります。
+
+```bash
+make extract PDF=x.pdf     # 翻訳せず、PDF -> Markdownだけ行う
+make translate PDF=x.pdf   # すでにextract済みのものだけ翻訳する
+make batch DIR=folder      # folder内の全PDFに make all を実行
+make list                  # 処理済みモジュール一覧
+make clean MODULE=libft    # 1モジュール分の出力を削除
+make fclean                # 仮想環境を削除してやり直す
+```
 
 ## 限界
 
