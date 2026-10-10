@@ -1,2 +1,4 @@
 docling>=2.117.0,<3.0.0
 requests
+torch
+torchvision

@@ -51,8 +51,10 @@ echo "DEEPL_API_KEY=ここに自分のキー" > .env
 ダウンロードした `libft.pdf` をそのまま指定します。移動は不要です。
 
 ```bash
-make all PDF=~/Downloads/libft.pdf
+make all PDF=$HOME/Downloads/libft.pdf
 ```
+
+⚠️ `PDF=~/Downloads/...` のように `~`（チルダ）を使うと、展開されずそのままの文字列として渡ってしまい `ファイルが見つかりません` エラーになります。`$HOME` か、フルパスを使ってください。
 
 **5. 出来上がったファイルを見る**
 
