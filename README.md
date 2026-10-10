@@ -13,6 +13,7 @@ PDF --[Docling（ローカル・無料）]--> Markdown --[DeepL（無料枠）]-
 
 ## 必要なもの
 
+- 空き容量 **約2GB**（`docling`がPyTorchなどの機械学習ライブラリに依存するため。GPU版を避けCPU版を使うよう設定済みですが、それでもこのくらいは必要です。42の校舎PCなど容量が厳しい環境では、`df -h ~` で空きを確認してから`make setup`してください）
 - Python 3.12以上
 - （あれば）[uv](https://docs.astral.sh/uv/) — `make setup`は`uv`があれば自動で使い、無ければ標準の`venv`+`pip`にフォールバックします。42の校舎PCなどで`uv`が入っていなくても、そのまま`make setup`を実行すればOKです
 - DeepLの無料APIキー（[deepl.com/ja/pro-api](https://www.deepl.com/ja/pro-api) で無料登録。月50万文字まで無料）
@@ -61,6 +62,7 @@ output/
 
 ## 限界
 
+- **"No space left on device" で `make setup` が失敗する場合**: 容量が足りていません。まず `rm -rf .venv` して中途半端に入ったものを消し、`df -h ~` で空きを確認してください（目安として2GB以上）。42の校舎PCでホームディレクトリの容量が厳しい場合は、`/goinfre`（ある場合）など容量に余裕のある場所にこのリポジトリごと置くと解決することがあります。
 - **DeepLの無料キーが新規に作れない場合**: その場合は `make translate` の代わりに `make extract` だけを使い、出てきたMarkdown（英語のみ）を手元でClaude等のAIに「対訳にして」と頼むか、自分で訳してください。パイプラインの前半（PDF→Markdown）はDeepLキーが無くても無料のまま動きます。
 - **OCRは既定でオフ**（`--no-ocr`）です。42の課題PDFは普通テキスト埋め込みで作られているため不要な上、OCRモデルのダウンロードが海外CDN経由で失敗することがあったためです。スキャン画像ベースのPDFを扱いたい場合はMakefileの`extract`から`--no-ocr`を外してください。
 - DeepLは1行ずつ機械的に訳すだけなので、`[!TIP]` `[!NOTE]` `[!WARNING]` のような注意書きの種類分けや、章の区切り、用語の統一（既存の対訳ファイルとの訳語の揃え）まではやってくれません。そこは自分で直すか、Claude CodeのようなAIに仕上げを頼むのがおすすめです。

@@ -7,7 +7,9 @@ authors = [
 ]
 requires-python = ">=3.12,<4.0"
 dependencies = [
-    "docling (>=2.117.0,<3.0.0)"
+    "docling (>=2.117.0,<3.0.0)",
+    "torch",
+    "torchvision"
 ]
 
 
@@ -17,3 +19,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.uv]
 package = false
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

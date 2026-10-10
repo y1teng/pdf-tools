@@ -30,8 +30,10 @@ setup:
 	else \
 		echo "== uv が見つからないので、標準の venv + pip でセットアップ =="; \
 		python3 -m venv "$(VENV)"; \
-		"$(PYTHON)" -m pip install --upgrade pip; \
-		"$(PYTHON)" -m pip install -r requirements.txt; \
+		"$(PYTHON)" -m pip install --no-cache-dir --upgrade pip; \
+		echo "== CPU版PyTorchをインストール（GPU版はサイズが数GBと大きいため） =="; \
+		"$(PYTHON)" -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu; \
+		"$(PYTHON)" -m pip install --no-cache-dir -r requirements.txt; \
 	fi
 	@echo "setup完了。DeepL無料キーを使う場合は .env に DEEPL_API_KEY=... を書いてください"
 	@echo "（https://www.deepl.com/ja/pro-api で無料登録できます。新規登録できない場合はREADMEの「限界」を参照）"
